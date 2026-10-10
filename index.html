@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Change for Installer</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f5f5f5; color: #2C2C2A; line-height: 1.6; }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 24px 16px; }
+
+  .header { text-align: center; margin-bottom: 40px; padding: 32px 0 24px; }
+  .header h1 { font-size: 24px; font-weight: 600; color: #1a1a1a; margin-bottom: 6px; }
+  .header p { font-size: 14px; color: #888; }
+  .header .tag { display: inline-block; background: #7F77DD; color: #fff; font-size: 11px; padding: 2px 10px; border-radius: 20px; margin-top: 8px; }
+
+  .summary-card { background: #fff; border-radius: 12px; padding: 24px 28px; margin-bottom: 32px; border: 1px solid #e8e8e6; }
+  .summary-card h2 { font-size: 16px; font-weight: 600; margin-bottom: 16px; color: #1a1a1a; display: flex; align-items: center; gap: 8px; }
+  .summary-card h2 .dot { width: 8px; height: 8px; border-radius: 50%; background: #7F77DD; flex-shrink: 0; }
+
+  .feature-list { list-style: none; }
+  .feature-list li { padding: 8px 0; font-size: 13px; color: #444; display: flex; align-items: flex-start; gap: 10px; border-bottom: 1px solid #f0f0ee; }
+  .feature-list li:last-child { border-bottom: none; }
+  .feature-list .badge { flex-shrink: 0; font-size: 10px; padding: 2px 8px; border-radius: 4px; font-weight: 500; margin-top: 2px; }
+  .badge-new { background: #E6F1FB; color: #185FA5; }
+  .badge-fix { background: #EAF3DE; color: #3B6D11; }
+  .badge-opt { background: #FAEEDA; color: #854F0B; }
+  .badge-refactor { background: #EEEDFE; color: #534AB7; }
+  .badge-i18n { background: #FAECE7; color: #993C1D; }
+
+  .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 32px; }
+  .stat-item { background: #fff; border-radius: 10px; padding: 16px; text-align: center; border: 1px solid #e8e8e6; }
+  .stat-item .num { font-size: 28px; font-weight: 700; color: #1a1a1a; }
+  .stat-item .label { font-size: 11px; color: #888; margin-top: 4px; }
+
+  .timeline { position: relative; }
+  .timeline::before { content: ''; position: absolute; left: 20px; top: 0; bottom: 0; width: 2px; background: #e0e0de; }
+
+  .commit { position: relative; padding-left: 52px; margin-bottom: 20px; }
+  .commit-dot { position: absolute; left: 14px; top: 18px; width: 14px; height: 14px; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 0 0 2px #ddd; z-index: 1; }
+  .commit-card { background: #fff; border-radius: 10px; padding: 16px 20px; border: 1px solid #e8e8e6; transition: border-color 0.2s; }
+  .commit-card:hover { border-color: #7F77DD; }
+  .commit-card .top { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
+  .commit-card .hash { font-family: 'SF Mono', Monaco, Consolas, monospace; font-size: 12px; color: #7F77DD; background: #EEEDFE; padding: 1px 6px; border-radius: 4px; cursor: pointer; }
+  .commit-card .date { font-size: 11px; color: #aaa; }
+  .commit-card .msg { font-size: 14px; font-weight: 500; color: #1a1a1a; margin-bottom: 4px; }
+  .commit-card .detail { font-size: 12px; color: #888; line-height: 1.5; }
+  .commit-card .changes { display: flex; gap: 12px; margin-top: 8px; font-size: 11px; color: #aaa; }
+  .commit-card .changes span { display: flex; align-items: center; gap: 3px; }
+  .changes .add { color: #3B6D11; }
+  .changes .del { color: #A32D2D; }
+
+  .dot-new { background: #378ADD; }
+  .dot-fix { background: #639922; }
+  .dot-opt { background: #BA7517; }
+  .dot-refactor { background: #7F77DD; }
+  .dot-merge { background: #888; }
+  .dot-i18n { background: #D85A30; }
+
+  .toggle-btn { display: block; margin: 0 auto 24px; padding: 8px 24px; font-size: 13px; color: #534AB7; background: #EEEDFE; border: 1px solid #CECBF6; border-radius: 20px; cursor: pointer; transition: all 0.2s; }
+  .toggle-btn:hover { background: #CECBF6; color: #fff; }
+
+  .footer { text-align: center; padding: 32px 0 16px; font-size: 12px; color: #bbb; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <h1>Installer 更新日志</h1>
+  <p>fdf437fc 之后 master 分支的开发历程</p>
+  <span class="tag">v2.0-dev</span>
+</div>
+
+<div class="stats-row">
+  <div class="stat-item"><div class="num">17</div><div class="label">提交总数</div></div>
+  <div class="stat-item"><div class="num">67</div><div class="label">天跨度</div></div>
+  <div class="stat-item"><div class="num">5,676</div><div class="label">行新增</div></div>
+  <div class="stat-item"><div class="num">2,343</div><div class="label">行删除</div></div>
+</div>
+
+<div class="summary-card">
+  <h2><span class="dot"></span>功能总结</h2>
+  <ul class="feature-list">
+    <li><span class="badge badge-new">新功能</span>Dhizuku 免 Root 静默安装 — 通过 Hidden API Binder 调用系统 IPackageInstaller，实现无 Root 环境下的 APK 安装</li>
+    <li><span class="badge badge-new">新功能</span>三模式安装架构 — 支持 Shizuku / Dhizuku / 系统安装器三种安装方式，可按需切换</li>
+    <li><span class="badge badge-new">新功能</span>Hidden API 模块化 — 将 IIntentSender、IPackageInstaller、ServiceManager 等 11 个隐藏接口独立为 hidden-api 库模块</li>
+    <li><span class="badge badge-new">新功能</span>接口文档 Demo App — 在 hidden-api 模块内创建独立 Demo 应用，展示所有隐藏 API 的文档信息</li>
+    <li><span class="badge badge-new">新功能</span>安装对话框 — 全新的安装确认弹窗 UI，展示包名、版本、权限等信息</li>
+    <li><span class="badge badge-new">新功能</span>原生崩溃捕获 — 集成 C++ crash_handler，捕获 SIGSEGV/SIGABRT 等信号，保存崩溃日志到本地</li>
+    <li><span class="badge badge-new">新功能</span>ACRA 崩溃报告 — 接入 ACRA 框架，自动收集 Java 层异常并写入本地文件</li>
+    <li><span class="badge badge-new">新功能</span>主题管理 — 新增 ThemeManager，支持应用内主题切换及夜间模式配色</li>
+    <li><span class="badge badge-refactor">重构</span>包结构重组 — Java 文件按 ui/util 包分类，移除彩蛋功能，入口改为 Toast 提示</li>
+    <li><span class="badge badge-refactor">重构</span>依赖管理优化 — 新增 hidden-api 库模块依赖，更新 Gradle 版本目录</li>
+    <li><span class="badge badge-opt">优化</span>UI 全面优化 — 清理冗余 Drawable 资源，统一图标命名，精简按钮选择器样式</li>
+    <li><span class="badge badge-fix">修复</span>Process.killProcess 编译错误 — 修复 Java 解析到 java.lang.Process 的问题，改为全限定 android.os.Process</li>
+    <li><span class="badge badge-fix">修复</span>语言切换功能修复 — 修正 LanguageManager 逻辑，确保多语言正确切换和持久化</li>
+    <li><span class="badge badge-fix">修复</span>IIntentSender 类型转换 — 通过 AIDL 定义解决 ClassCastException 问题</li>
+    <li><span class="badge badge-i18n">国际化</span>多语言支持完善 — 新增繁体中文 (zh-HK/TW) 翻译，更新英文/日文/俄文翻译</li>
+  </ul>
+</div>
+
+<button class="toggle-btn" id="toggleLog" onclick="toggleTimeline()">展开提交日志</button>
+
+<div class="timeline" id="timeline" style="display:none;">
+
+  <div class="commit">
+    <div class="commit-dot dot-new"></div>
+    <div class="commit-card">
+      <div class="top"><span class="hash">7f504fa</span><span class="date">2026-05-07 00:06</span></div>
+      <div class="msg">接口文档 Demo App</div>
+      <div class="detail">在 hidden-api 模块内创建独立 Demo 应用，展示 11 个隐藏 API 接口的文档信息，包含类型标签、方法列表和字段说明。配置 Material3 主题和自定义图标。</div>
+      <div class="changes"><span class="add">+608</span><span class="del">-3</span></div>
+    </div>
+  </div>
+
+  <div class="commit">
+    <div class="commit-dot dot-opt"></div>
+    <div class="commit-card">
+      <div class="top"><span class="hash">0956aa8</span><span class="date">2026-05-06 23:20</span></div>
+      <div class="msg">功能优化</div>
+      <div class="detail">UI 优化调整；修复语言切换功能异常；增加原生库支持；实现日志捕获功能，集成 ACRA 崩溃报告与 C++ crash_handler。</div>
+      <div class="changes"><span class="add">+867</span><span class="del">-232</span></div>
+    </div>
+  </div>
+
+  <div class="commit">
+    <div class="commit-dot dot-opt"></div>
+    <div class="commit-card">
+      <div class="top"><span class="hash">5a03d5e</span><span class="date">2026-05-06 21:48</span></div>
+      <div class="msg">功能优化</div>
+      <div class="detail">安装对话框和设置页面交互细节优化，Shell 片段功能调整。</div>
+      <div class="changes"><span class="add">+26</span><span class="del">-11</span></div>
+    </div>
+  </div>
+
+  <div class="commit">
+    <div class="commit-dot dot-i18n"></div>
+    <div class="commit-card">
+      <div class="top"><span class="hash">97182ce</span><span class="date">2026-05-06 21:44</span></div>
+      <div class="msg">功能优化；添加测试语言翻译</div>
+      <div class="detail">新增 ThemeManager 主题管理；完善繁体中文翻译；清理冗余 Drawable 资源（移除 15+ 旧选择器和图标）；精简按钮样式系统。</div>
+      <div class="changes"><span class="add">+1,383</span><span class="del">-490</span></div>
+    </div>
+  </div>
+
+  <div class="commit">
+    <div class="commit-dot dot-merge"></div>
+    <div class="commit-card">
+      <div class="top"><span class="hash">36792b9</span><span class="date">2026-05-06 19:27</span></div>
+      <div class="msg">PR161926</div>
+      <div class="detail">合并 Pull Request，同步外部贡献代码。</div>
+      <div class="changes"></div>
+    </div>
+  </div>
+
+  <div class="commit">
+    <div class="commit-dot dot-new"></div>
+    <div class="commit-card">
+      <div class="top"><span class="hash">91a4ee2</span><span class="date">2026-05-06 18:51</span></div>
+      <div class="msg">实现对话框安装</div>
+      <div class="detail">重构安装对话框 UI 逻辑，新增权限说明弹窗；实现安装前的确认流程；新增 Dhizuku 图标资源。</div>
+      <div class="changes"><span class="add">+767</span><span class="del">-639</span></div>
+    </div>
+  </div>
+
+  <div class="commit">
+    <div class="commit-dot dot-new"></div>
+    <div class="commit-card">
+      <div class="top"><span class="hash">83abd64</span><span class="date">2026-05-06 15:20</span></div>
+      <div class="msg">对话框</div>
+      <div class="detail">大幅扩展安装对话框功能和 UI，新增多语言字符串；调整颜色配置。</div>
+      <div class="changes"><span class="add">+738</span><span class="del">-213</span></div>
+    </div>
+  </div>
+
+  <div class="commit">
+    <div class="commit-dot dot-new"></div>
+    <div class="commit-card">
+      <div class="top"><span class="hash">ffc1ecd</span><span class="date">2026-05-06 14:19</span></div>
+      <div class="msg">初步实现管理员安装</div>
+      <div class="detail">通过 Dhizuku + Hidden API 实现管理员权限安装；新增 AIDL 定义（IIntentReceiver/IIntentSender）；增强 DhizukuInstallHelper 功能；编写 Dhizuku 故障排查文档。</div>
+      <div class="changes"><span class="add">+417</span><span class="del">-57</span></div>
+    </div>
+  </div>
+
+  <div class="commit">
+    <div class="commit-dot dot-refactor"></div>
+    <div class="commit-card">
+      <div class="top"><span class="hash">67edc2d</span><span class="date">2026-05-05 16:33</span></div>
+      <div class="msg">Hidden API 模块扩展</div>
+      <div class="detail">新增 PackageInstaller、ServiceManager、UserHandle 隐藏接口封装；移除彩蛋 WebView；优化 PrivilegeHelper 权限检测。</div>
+      <div class="changes"><span class="add">+132</span><span class="del">-60</span></div>
+    </div>
+  </div>
+
+  <div class="commit">
+    <div class="commit-dot dot-refactor"></div>
+    <div class="commit-card">
+      <div class="top"><span class="hash">4b7b2b1</span><span class="date">2026-05-05 16:18</span></div>
+      <div class="msg">软件包重构，功能实现</div>
+      <div class="detail">将 Java 文件重组到 ui/util 包；移除彩蛋功能；新增 ReflectionProvider 反射工具；重写 DhizukuInstallHelper；新增 LocalIntentReceiver 回调机制。</div>
+      <div class="changes"><span class="add">+613</span><span class="del">-584</span></div>
+    </div>
+  </div>
+
+  <div class="commit">
+    <div class="commit-dot dot-refactor"></div>
+    <div class="commit-card">
+      <div class="top"><span class="hash">b82cc8b</span><span class="date">2026-05-05 16:18</span></div>
+      <div class="msg">依赖</div>
+      <div class="detail">创建 hidden-api 库模块，封装 7 个 Android 隐藏接口（IIntentSender、IIntentReceiver、IPackageInstaller 等）；配置模块构建和版本管理。</div>
+      <div class="changes"><span class="add">+147</span><span class="del">-8</span></div>
+    </div>
+  </div>
+
+  <div class="commit">
+    <div class="commit-dot dot-fix"></div>
+    <div class="commit-card">
+      <div class="top"><span class="hash">06fff0e</span><span class="date">2026-05-05 14:25</span></div>
+      <div class="msg">初步解决 API 调用问题</div>
+      <div class="detail">大幅重写 DhizukuInstallHelper，优化 API 调用流程；增强 PrivilegeHelper 权限管理逻辑。</div>
+      <div class="changes"><span class="add">+305</span><span class="del">-201</span></div>
+    </div>
+  </div>
+
+  <div class="commit">
+    <div class="commit-dot dot-new"></div>
+    <div class="commit-card">
+      <div class="top"><span class="hash">c353b42</span><span class="date">2026-05-02 21:09</span></div>
+      <div class="msg">API 接入，HTML 优化</div>
+      <div class="detail">接入 Dhizuku API 实现包安装功能；新增 DhizukuInstallHelper；优化 InstallerFragment 安装流程；大幅优化项目介绍页面 HTML；增强 PrivilegeHelper。</div>
+      <div class="changes"><span class="add">+1,090</span><span class="del">-196</span></div>
+    </div>
+  </div>
+
+  <div class="commit">
+    <div class="commit-dot dot-merge"></div>
+    <div class="commit-card">
+      <div class="top"><span class="hash">54c933a</span><span class="date">2026-03-22 19:35</span></div>
+      <div class="msg">Merge Pull Request #15</div>
+      <div class="detail">合并外部 Pull Request。</div>
+      <div class="changes"></div>
+    </div>
+  </div>
+
+  <div class="commit">
+    <div class="commit-dot dot-merge"></div>
+    <div class="commit-card">
+      <div class="top"><span class="hash">7fb424c</span><span class="date">2026-03-02 09:25</span></div>
+      <div class="msg">PR140925</div>
+      <div class="detail">合并外部 Pull Request。</div>
+      <div class="changes"></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="footer">Installer Project &middot; Master Branch &middot; Generated 2026-05-07</div>
+
+</div>
+
+<script>
+function toggleTimeline() {
+  const el = document.getElementById('timeline');
+  const btn = document.getElementById('toggleLog');
+  if (el.style.display === 'none') {
+    el.style.display = 'block';
+    btn.textContent = '收起提交日志';
+  } else {
+    el.style.display = 'none';
+    btn.textContent = '展开提交日志';
+  }
+}
+</script>
+</body>
+</html>
